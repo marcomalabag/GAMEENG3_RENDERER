@@ -28,6 +28,8 @@ private:
 
 	unsigned long m_old_time = 0;
 	float m_delta_time = 0;
+	bool increase;
+	double speed = 0;
 	float m_angle = 0;
 
 private:
