@@ -35,8 +35,6 @@ AppWindow::~AppWindow()
 
 void AppWindow::onCreate()
 {
-	EngineTime::initialize();
-	EngineTime::LogFrameStart();
 
 	Window::onCreate();
 	GraphicsEngine::get()->init();
@@ -51,7 +49,7 @@ void AppWindow::onCreate()
 		{-0.5f,-0.5f,0.0f,    -0.32f,-0.11f,0.0f,   0,0,0,  0,1,0 }, // POS1
 		{-0.5f,0.5f,0.0f,     -0.11f,0.78f,0.0f,    1,1,0,  0,1,1 }, // POS2
 		{ 0.5f,-0.5f,0.0f,     0.75f,-0.73f,0.0f,   0,0,1,  1,0,0 },// POS2
-		{ 0.5f,0.5f,0.0f,      0.88f,0.77f,0.0f,    1,1,1,  0,0,1 }
+		{ 0.0f,0.0f,0.0f,      0.88f,0.77f,0.0f,    1,0,1,  0,0,1 }
 	};
 
 	m_vb = GraphicsEngine::get()->createVertexBuffer();
@@ -84,9 +82,24 @@ void AppWindow::onCreate()
 
 void AppWindow::onUpdate()
 {
-	EngineTime::LogFrameEnd();
-	Window::onUpdate();
 	
+	Window::onUpdate();
+
+	if (speed <= 0) {
+		increase = true;
+	}
+
+	if (speed < 10.0f && increase) {
+		speed += EngineTime::getDeltaTime();
+	}
+
+	else if(speed > 10.0f || !(increase)){
+		increase = false;
+		speed -= EngineTime::getDeltaTime();
+	}
+
+	std::cout << "Frames have passed:" << speed << "\n";
+
 	//CLEAR THE RENDER TARGET 
 	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
 		0, 0.3f, 0.4f, 1);
@@ -100,13 +113,8 @@ void AppWindow::onUpdate()
 	m_delta_time = new_time / 1000.0f;
 	m_old_time = ::GetTickCount();
 
-	
 
-	if (EngineTime::getDeltaTime() > 10.0) {
-		EngineTime::LogFrameStart();
-	}
-
-	m_angle += 1.57f * m_delta_time * EngineTime::getDeltaTime();
+	m_angle += 1.57f * EngineTime::getDeltaTime() * speed;
 	constant cc;
 	cc.m_angle = m_angle;
 
@@ -125,6 +133,7 @@ void AppWindow::onUpdate()
 
 	// FINALLY DRAW THE TRIANGLE
 	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(m_vb->getSizeVertexList(), 0);
+
 	m_swap_chain->present(true);
 
 	
