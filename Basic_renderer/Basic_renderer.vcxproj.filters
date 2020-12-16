@@ -37,6 +37,48 @@
     <Filter Include="GameEngine\EngineTime">
       <UniqueIdentifier>{2323b987-4a95-45b5-9bbc-ddbbe02fc4b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\IndexBuffer">
+      <UniqueIdentifier>{9b2ba217-42db-4c91-870e-a6a1286a542a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\Math">
+      <UniqueIdentifier>{dbf45ecc-24c7-4622-a417-598c0307957f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Primitive">
+      <UniqueIdentifier>{90afb551-3d1b-4628-8c41-c25f9be75d01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IMGUI">
+      <UniqueIdentifier>{991ff88e-ea76-4341-8c6c-9d7374c043af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\InputSystem">
+      <UniqueIdentifier>{bdb672d9-86bd-4fca-b443-1196bc7e250f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{32e8885f-2885-4bdc-b1cf-fbb2199b1a7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\AUIScreen">
+      <UniqueIdentifier>{dfa2324c-ca86-41dd-b40b-3d4055c6a489}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\UIManager">
+      <UniqueIdentifier>{ce659276-652c-4069-9752-e0ee05d8b02f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\ProfileScreen">
+      <UniqueIdentifier>{ad3375a0-fe34-454b-848f-a79922b5c105}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\MenuScreen">
+      <UniqueIdentifier>{ef1ed3f9-058a-4baf-891e-56fe6471715f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\InspectorScreen">
+      <UniqueIdentifier>{8496b213-f297-4d81-b008-84783b3e9db9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\HierarchyScreen">
+      <UniqueIdentifier>{970fbc18-0569-4482-8354-f833fa5de0eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\UINames">
+      <UniqueIdentifier>{72916849-dec2-4a6c-96c1-7dd2ba1371d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{6c0daa32-f478-4de2-9757-2ba61e8f9c9d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -75,6 +117,69 @@
     <ClCompile Include="EngineTime.cpp">
       <Filter>GameEngine\EngineTime</Filter>
     </ClCompile>
+    <ClCompile Include="IndexBuffer.cpp">
+      <Filter>GameEngine\GraphicsEngine\IndexBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="AGameObject.cpp">
+      <Filter>Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Downloads\imgui.cpp">
+      <Filter>IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Downloads\imgui_demo.cpp">
+      <Filter>IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Downloads\imgui_draw.cpp">
+      <Filter>IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Downloads\imgui_impl_dx11.cpp">
+      <Filter>IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Downloads\imgui_impl_win32.cpp">
+      <Filter>IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Downloads\imgui_widgets.cpp">
+      <Filter>IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="InputSystem.cpp">
+      <Filter>GameEngine\InputSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Point.cpp">
+      <Filter>GameEngine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>UI\UIManager</Filter>
+    </ClCompile>
+    <ClCompile Include="AUIScreen.cpp">
+      <Filter>UI\AUIScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="UINames.cpp">
+      <Filter>UI\UINames</Filter>
+    </ClCompile>
+    <ClCompile Include="ProfileScreen.cpp">
+      <Filter>UI\ProfileScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuScreen.cpp">
+      <Filter>UI\MenuScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="InspectorScreen.cpp">
+      <Filter>UI\InspectorScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="Hierarchy.cpp">
+      <Filter>UI\HierarchyScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector4D.cpp">
+      <Filter>GameEngine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneCameraHandler.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -109,6 +214,84 @@
     </ClInclude>
     <ClInclude Include="EngineTime.h">
       <Filter>GameEngine\EngineTime</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexBuffer.h">
+      <Filter>GameEngine\GraphicsEngine\IndexBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3D.h">
+      <Filter>GameEngine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix4.h">
+      <Filter>GameEngine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="AGameObject.h">
+      <Filter>Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\imconfig.h">
+      <Filter>IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\imgui.h">
+      <Filter>IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\imgui_impl_dx11.h">
+      <Filter>IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\imgui_impl_win32.h">
+      <Filter>IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\imgui_internal.h">
+      <Filter>IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\imstb_rectpack.h">
+      <Filter>IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\imstb_textedit.h">
+      <Filter>IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\imstb_truetype.h">
+      <Filter>IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSystem.h">
+      <Filter>GameEngine\InputSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="InputListener.h">
+      <Filter>GameEngine\InputSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>GameEngine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>UI\UIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="AUIScreen.h">
+      <Filter>UI\AUIScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="UINames.h">
+      <Filter>UI\UINames</Filter>
+    </ClInclude>
+    <ClInclude Include="ProfileScreen.h">
+      <Filter>UI\ProfileScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuScreen.h">
+      <Filter>UI\MenuScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="InspectorScreen.h">
+      <Filter>UI\InspectorScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="Hierarchy.h">
+      <Filter>UI\HierarchyScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector4D.h">
+      <Filter>GameEngine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneCameraHandler.h">
+      <Filter>Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

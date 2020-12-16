@@ -1,28 +1,18 @@
 #include "AppWindow.h"
 #include "EngineTime.h"
+#include "Vector3D.h"
 #include <Windows.h>
+#include "Matrix4.h"
+#include "InputSystem.h"
+#include "UIManager.h"
 
-
-struct vec3
-{
-	float x, y, z;
-};
 
 struct vertex
 {
-	vec3 position;
-	vec3 position1;
-	vec3 color;
-	vec3 color1;
+	Vector3D position;
+	Vector3D color;
+	Vector3D color1;
 };
-
-
-__declspec(align(16))
-struct constant
-{
-	float m_angle;
-};
-
 
 AppWindow::AppWindow()
 {
@@ -33,36 +23,42 @@ AppWindow::~AppWindow()
 {
 }
 
+
 void AppWindow::onCreate()
 {
 
 	Window::onCreate();
+
+	InputSystem::initialize();
+
 	GraphicsEngine::get()->init();
 	m_swap_chain = GraphicsEngine::get()->createSwapChain();
-
+	
 	RECT rc = this->getClientWindowRect();
 	m_swap_chain->init(this->m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
 
-	vertex list[] =
-	{
-		//X - Y - Z
-		{-0.5f,-0.5f,0.0f,    -0.32f,-0.11f,0.0f,   0,0,0,  0,1,0 }, // POS1
-		{-0.5f,0.5f,0.0f,     -0.11f,0.78f,0.0f,    1,1,0,  0,1,1 }, // POS2
-		{ 0.5f,-0.5f,0.0f,     0.75f,-0.73f,0.0f,   0,0,1,  1,0,0 },// POS2
-		{ 0.0f,0.0f,0.0f,      0.88f,0.77f,0.0f,    1,0,1,  0,0,1 }
-	};
+	UIManager::initialize(this->m_hwnd);
 
-	m_vb = GraphicsEngine::get()->createVertexBuffer();
-	UINT size_list = ARRAYSIZE(list);
 
 	void* shader_byte_code = nullptr;
 	size_t size_shader = 0;
 
-
 	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
 	
 	m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
-	m_vb->load(list, sizeof(vertex), size_list, shader_byte_code, size_shader);
+
+	for (int i = 0; i < 100; i++) {
+		float x = (rand() % (-100 - 100)) / 100.0;
+		float y = (rand() % (-100 - 100)) / 100.0;
+		float Rspeed = (rand() % (-135 - 135)) / 100.0;
+
+		Cube* cube = new Cube("Cube", shader_byte_code, size_shader);
+		cube->setAnimSpeed(3.45f);
+		cube->setPosition(Vector3D(x, y, 0.0f));
+		
+		cube->setScale(Vector3D(0.25f, 0.25f, 0.25f));
+		this->MyCubes.push_back(cube);
+	}
 
 	GraphicsEngine::get()->releaseCompiledShader();
 
@@ -71,19 +67,17 @@ void AppWindow::onCreate()
 	m_ps = GraphicsEngine::get()->createPixelShader(shader_byte_code, size_shader);
 	GraphicsEngine::get()->releaseCompiledShader();
 
-	constant cc;
-	cc.m_angle = 0;
-
-	m_cb = GraphicsEngine::get()->createConstantBuffer();
-	m_cb->load(&cc, sizeof(constant));
-
-	
+	SceneCameraHandler::initialize();
 }
 
 void AppWindow::onUpdate()
 {
 	
 	Window::onUpdate();
+	UIManager::getInstance()->drawAllUI();
+
+	InputSystem::getInstance()->update();
+
 
 	if (speed <= 0) {
 		increase = true;
@@ -105,35 +99,26 @@ void AppWindow::onUpdate()
 		0, 0.3f, 0.4f, 1);
 	//SET VIEWPORT OF RENDER TARGET IN WHICH WE HAVE TO DRAW
 	RECT rc = this->getClientWindowRect();
-	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
-	unsigned long new_time = 0;
-	if (m_old_time)
-		new_time = ::GetTickCount() - m_old_time;
-	m_delta_time = new_time / 1000.0f;
-	m_old_time = ::GetTickCount();
+	int width = rc.right - rc.left;
+	int height = rc.bottom - rc.top;
 
-
-	m_angle += 1.57f * EngineTime::getDeltaTime() * speed;
-	constant cc;
-	cc.m_angle = m_angle;
-
-	m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
-
-	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_vs, m_cb);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(m_ps, m_cb);
-
-	//SET DEFAULT SHADER IN THE GRAPHICS PIPELINE TO BE ABLE TO DRAW
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(m_vs);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(m_ps);
 
+	
+
+	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(width, height);
+
+	for (int i = 0; i < MyCubes.size(); i++) {
+		this->MyCubes[i]->update(EngineTime::getDeltaTime());
+		this->MyCubes[i]->draw(width, height, m_vs, m_ps, rotX, rotY);
+	}
+
+
+	SceneCameraHandler::getInstance()->update();
 
 	//SET THE VERTICES OF THE TRIANGLE TO DRAW
-	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
-
-	// FINALLY DRAW THE TRIANGLE
-	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(m_vb->getSizeVertexList(), 0);
-
 	m_swap_chain->present(true);
 
 	
@@ -142,9 +127,63 @@ void AppWindow::onUpdate()
 void AppWindow::onDestroy()
 {
 	Window::onDestroy();
-	m_vb->release();
 	m_swap_chain->release();
 	m_vs->release();
 	m_ps->release();
 	GraphicsEngine::get()->release();
+	SceneCameraHandler::destroy();
+}
+
+void AppWindow::onFocus()
+{
+	InputSystem::getInstance()->addListener(this);
+}
+
+void AppWindow::onDefocus()
+{
+	InputSystem::getInstance()->removeListener(this);
+}
+
+void AppWindow::onKeyDown(int key)
+{
+	if (key == 'W')
+	{
+		rotX += 3.14f * m_delta_time;
+	}
+	else if (key == 'S')
+	{
+		rotX -= 3.14f * m_delta_time;
+	}
+	else if (key == 'A')
+	{
+		rotY += 3.14f * m_delta_time;
+	}
+	else if (key == 'D')
+	{
+		rotY -= 3.14f * m_delta_time;
+	}
+}
+
+void AppWindow::onKeyUp(int key)
+{
+}
+
+void AppWindow::onMouseMove(const Point& delta_mouse_pos)
+{
+}
+
+void AppWindow::onLeftMouseDown(const Point& mouse_pos)
+{
+}
+
+void AppWindow::onLeftMouseUp(const Point& mouse_pos)
+{
+}
+
+void AppWindow::onRightMouseDown(const Point& mouse_pos)
+{
+}
+
+void AppWindow::onRightMouseUp(const Point& mouse_pos)
+{
 }
