@@ -9,32 +9,42 @@
 #include "EngineTime.h"
 #include "Matrix4.h"
 #include "InputSystem.h"
+#include "Vector2D.h"
+#include <iostream>
+#include "Mesh.h"
 
+struct Vertex {
+	Vector3D position;
+	Vector3D color;
+	Vector3D color1;
+};
 
-
-Cube::Cube(string name, void* shaderByteCode, size_t sizeShader):AGameObject(name)
+Cube::Cube(String name, void* shaderByteCode, size_t sizeShader):AGameObject(name)
 {
+	ShaderNames names;
+	void* shader_byte_code = NULL;
+	size_t size_shader = 0;
+	ShaderLibrary::getInstance()->requestVertexShaderData(names.BASE_VERTEX_SHADER_NAME, &shader_byte_code, &size_shader);
+	
 
-	Vertex list[] =
+	Vertex vertex_list[] =
 	{
-		{Vector3D(-0.5f,-0.5f,-0.5f),    Vector3D(1,0,0),  Vector3D(0.2f,0,0) },
-		{Vector3D(-0.5f,0.5f,-0.5f),    Vector3D(1,1,0), Vector3D(0.2f,0.2f,0) },
-		{ Vector3D(0.5f,0.5f,-0.5f),   Vector3D(1,1,0),  Vector3D(0.2f,0.2f,0) },
-		{ Vector3D(0.5f,-0.5f,-0.5f),     Vector3D(1,0,0), Vector3D(0.2f,0,0) },
+		//X - Y - Z
+		//FRONT FACE
+		{Vector3D(-0.5f,-0.5f,-0.5f),    Vector3D(1,1,1),  Vector3D(0.0f,0,0) },
+		{Vector3D(-0.5f,0.5f,-0.5f),    Vector3D(1,1,1), Vector3D(0.0f,0.0f,0) },
+		{ Vector3D(0.5f,0.5f,-0.5f),   Vector3D(1,1,1),  Vector3D(0.0f,0.0f,0) },
+		{ Vector3D(0.5f,-0.5f,-0.5f),     Vector3D(1,1,1), Vector3D(0.0f,0,0) },
 
-		{ Vector3D(0.5f,-0.5f,0.5f),    Vector3D(0,1,0), Vector3D(0,0.2f,0) },
-		{ Vector3D(0.5f,0.5f,0.5f),    Vector3D(0,1,1), Vector3D(0,0.2f,0.2f) },
-		{ Vector3D(-0.5f,0.5f,0.5f),   Vector3D(0,1,1),  Vector3D(0,0.2f,0.2f) },
-		{ Vector3D(-0.5f,-0.5f,0.5f),     Vector3D(0,1,0), Vector3D(0,0.2f,0) }
+		//BACK FACE
+		{ Vector3D(0.5f,-0.5f,0.5f),    Vector3D(1,1,1), Vector3D(0,0.0f,0) },
+		{ Vector3D(0.5f,0.5f,0.5f),    Vector3D(1,1,1), Vector3D(0,0.0f,0.0f) },
+		{ Vector3D(-0.5f,0.5f,0.5f),   Vector3D(1,1,1),  Vector3D(0,0.0f,0.0f) },
+		{ Vector3D(-0.5f,-0.5f,0.5f),     Vector3D(1,1,1), Vector3D(0,0.0f,0) }
 
 	};
 
-
-
-	this->vertexBuffer = GraphicsEngine::get()->createVertexBuffer();
-	this->vertexBuffer->load(list, sizeof(Vertex), ARRAYSIZE(list), shaderByteCode, sizeShader);
-
-	unsigned int indexlist[] =
+	unsigned int index_list[] =
 	{
 		//FRONT SIDE
 		0,1,2,  //FIRST TRIANGLE
@@ -56,46 +66,55 @@ Cube::Cube(string name, void* shaderByteCode, size_t sizeShader):AGameObject(nam
 		1,0,7
 	};
 
-	this->indexBuffer = GraphicsEngine::get()->createIndexbuffer();
-	this->indexBuffer->load(indexlist, ARRAYSIZE(indexlist));
-
+	this->indexBuffer = GraphicsEngine::get()->getRenderSystem()->createIndexbuffer(index_list, ARRAYSIZE(index_list));
+	
+	if (shader_byte_code == NULL) {
+		std::cout << "Shader Byte Code NULL" << "\n";
+	}
+	if (size_shader == 0) {
+		std::cout << "Size Shader NULL" << "\n";
+	}
+	
+	this->vertexBuffer = GraphicsEngine::get()->getRenderSystem()->createVertexBufferWithoutTexture(vertex_list, sizeof(Vertex), ARRAYSIZE(vertex_list), shader_byte_code, size_shader);
+	
+	
 	constant cc;
 	cc.m_time = 0;
 
-	this->constantBuffer = GraphicsEngine::get()->createConstantBuffer();
-	this->constantBuffer->load(&cc, sizeof(constant));
+	
+	this->constantBuffer = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&cc, sizeof(constant));
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setVertexShader(ShaderLibrary::getInstance()->getVertexShader(names.BASE_VERTEX_SHADER_NAME));
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(ShaderLibrary::getInstance()->getPixelShader(names.BASE_PIXEL_SHADER_NAME));
 }
 
 Cube::~Cube()
 {
-	this->indexBuffer->release();
-	this->vertexBuffer->release();
 	AGameObject::~AGameObject();
 }
 
 void Cube::update(float deltaTime)
 {
 	this->deltaTime = deltaTime;
-	
 
-	if (this->ticks >= 0) {
+
+	if (InputSystem::getInstance()->isKeyDown('W')) {
 		this->ticks -= this->deltaTime;
 	}
-	else {
+	else if (InputSystem::getInstance()->isKeyDown('S')) {
 		this->ticks += this->deltaTime;
 	}
 
-	float rotS = this->ticks * 0.5f;
+
+	float rotS = this->ticks * this->speed;
 
 	this->setRotation(rotS, rotS, rotS);
 }
 
-void Cube::draw(int width, int height, VertexShader* vertexShader, PixelShader* pixelShader, float rotX, float rotY)
+void Cube::draw(int width, int height)
 {
 	constant cc;
-	cc.m_time = this->deltaTime ;
-	
-	InputSystem::get()->update();
+	cc.m_time = this->deltaTime;
+
 
 	if (this->deltaPos > 1.0f) {
 		this->deltaPos = 0.0f;
@@ -103,10 +122,10 @@ void Cube::draw(int width, int height, VertexShader* vertexShader, PixelShader* 
 	else {
 		this->deltaPos += this->deltaTime * 0.4f;
 	}
-	
+
 	Vector3D rot;
 
-	
+
 	Matrix4 SumM;
 	Matrix4 translate;
 	Matrix4 Scale;
@@ -123,22 +142,20 @@ void Cube::draw(int width, int height, VertexShader* vertexShader, PixelShader* 
 	translate.setTranslation(this->getLocalPosition());
 	Scale.setScale(this->getLocalScale());
 	rot = Vector3D(this->getLocalRotation());
-	
+
 	rotZ.setIdentity();
 	rotZ.setRotationZ(rot.getZ());
-	
+
 	rotF.setIdentity();
 	rotF.setRotationX(rot.getX());
-	
-
 
 	rotGl.setIdentity();
 	rotGl.setRotationY(rot.getY());
-	
+
 
 
 	rotM.setIdentity();
-	
+
 	rotM = rotM.MultiplyMatrix(rotF.MultiplyMatrix(rotGl.MultiplyMatrix(rotZ)));
 	SumM = SumM.MultiplyMatrix(Scale.MultiplyMatrix(rotM));
 	SumM = SumM.MultiplyMatrix(translate);
@@ -148,20 +165,23 @@ void Cube::draw(int width, int height, VertexShader* vertexShader, PixelShader* 
 	cc.m_view = cameraMatrix;
 
 	float ARatio = (float)width / (float)height;
-	
+
 	cc.m_proj.setPerspectiveFovLH
 	(
-		ARatio, ARatio, 0.1f, 100.0f
+		1.57f, ARatio, 0.1f, 100.0f
 	);
 
-	this->constantBuffer->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(vertexShader, this->constantBuffer);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(pixelShader, this->constantBuffer);
 
-	GraphicsEngine::get()->getImmediateDeviceContext()->setIndexBuffer(this->indexBuffer);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(this->vertexBuffer);
+	ShaderNames names; 
+	this->constantBuffer->update(GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext(), &cc);
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setConstantBuffer(ShaderLibrary::getInstance()->getVertexShader(names.BASE_VERTEX_SHADER_NAME), this->constantBuffer);
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setConstantBuffer(ShaderLibrary::getInstance()->getPixelShader(names.BASE_PIXEL_SHADER_NAME), this->constantBuffer);
 
-	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleListIndexed(this->indexBuffer->getSizeIndexList(), 0, 0);
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setIndexBuffer(this->indexBuffer);
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setVertexBufferWithoutTexture(this->vertexBuffer);
+
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->drawTriangleListIndexed(this->indexBuffer->getSizeIndexList(), 0, 0);
+
 
 }
 
@@ -169,54 +189,3 @@ void Cube::setAnimSpeed(float speed)
 {
 	this->speed = speed;
 }
-
-void Cube::onKeyDown(int key)
-{
-	if (key == 'W') {
-		this->rotX += 3.14 * this->deltaTime;
-		std::cout << "W is pressed";
-	}
-
-	else if (key == 'S') {
-		this->rotX -= 3.14 * this->deltaTime;
-		std::cout << "S is pressed";
-	}
-
-	else if (key == 'A') {
-		this->rotY += 3.14 * this->deltaTime;
-		std::cout << "A is pressed";
-	}
-
-	else if (key == 'D') {
-		this->rotY -= 3.14 * this->deltaTime;
-		std::cout << "D is pressed";
-	}
-}
-
-void Cube::onKeyUp(int key) {
-
-}
-
-void Cube::onMouseMove(const Point& delta_mouse_pos)
-{
-
-}
-
-void Cube::onLeftMouseDown(const Point& mouse_pos)
-{
-}
-
-void Cube::onLeftMouseUp(const Point& mouse_pos)
-{
-}
-
-void Cube::onRightMouseDown(const Point& mouse_pos)
-{
-}
-
-void Cube::onRightMouseUp(const Point& mouse_pos)
-{
-}
-
-
-

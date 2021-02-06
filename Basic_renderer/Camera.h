@@ -4,17 +4,18 @@
 #include "InputListener.h"
 #include "Matrix4.h"
 #include "InputSystem.h"
+#include "Prerequisites.h"
 #include <iostream>
 
 class Camera: public AGameObject, public InputListener
 {
 public:
-	Camera(string name);
+	Camera(String name);
 	
     ~Camera();
 
 	void update(float deltaTime) override;
-	virtual void draw(int with, int height, VertexShader* vertexShader, PixelShader* pixelShader, float rotX, float rotY) override;
+	virtual void draw(int with, int height) override;
 	Matrix4 getViewMatrix();
 
 	virtual void onKeyDown(int key) override;

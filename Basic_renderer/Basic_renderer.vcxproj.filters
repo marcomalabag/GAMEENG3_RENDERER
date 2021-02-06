@@ -13,32 +13,8 @@
     <Filter Include="GameEngine\GraphicsEngine">
       <UniqueIdentifier>{0c5ad558-cfc8-46c1-8c1b-e94e974f13a4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameEngine\GraphicsEngine\SwapChain">
-      <UniqueIdentifier>{7537754b-9516-454e-9dba-9ee6bb31bdf4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameEngine\GraphicsEngine\DeviceContext">
-      <UniqueIdentifier>{c50d39bd-9d6b-45c2-9dc4-357b500b7193}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameEngine\GraphicsEngine\VertexBuffer">
-      <UniqueIdentifier>{86ab48d5-7581-40ae-b57f-0bf43399a22e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameEngine\GraphicsEngine\VertexShader">
-      <UniqueIdentifier>{c1c4de36-0454-4283-a622-b0ba694f47f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameEngine\GraphicsEngine\PixelShader">
-      <UniqueIdentifier>{f976e340-217a-4c93-b11f-a8ce0a2cb8b2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameEngine\GraphicsEngine\DrawQuad">
-      <UniqueIdentifier>{b7a8db07-3962-460c-a8c1-e74bfd92424b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameEngine\GraphicsEngine\ConstantBuffer">
-      <UniqueIdentifier>{ef90d4a1-718a-49e4-b59d-b239b5f6800e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameEngine\EngineTime">
       <UniqueIdentifier>{2323b987-4a95-45b5-9bbc-ddbbe02fc4b1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameEngine\GraphicsEngine\IndexBuffer">
-      <UniqueIdentifier>{9b2ba217-42db-4c91-870e-a6a1286a542a}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameEngine\Math">
       <UniqueIdentifier>{dbf45ecc-24c7-4622-a417-598c0307957f}</UniqueIdentifier>
@@ -79,6 +55,60 @@
     <Filter Include="Camera">
       <UniqueIdentifier>{6c0daa32-f478-4de2-9757-2ba61e8f9c9d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\RenderSystem">
+      <UniqueIdentifier>{8189b7a2-cdca-467f-9844-605c23c47309}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\RenderSystem\ConstantBuffer">
+      <UniqueIdentifier>{ef90d4a1-718a-49e4-b59d-b239b5f6800e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\RenderSystem\DeviceContext">
+      <UniqueIdentifier>{c50d39bd-9d6b-45c2-9dc4-357b500b7193}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\RenderSystem\DrawQuad">
+      <UniqueIdentifier>{b7a8db07-3962-460c-a8c1-e74bfd92424b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\RenderSystem\IndexBuffer">
+      <UniqueIdentifier>{9b2ba217-42db-4c91-870e-a6a1286a542a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\RenderSystem\PixelShader">
+      <UniqueIdentifier>{f976e340-217a-4c93-b11f-a8ce0a2cb8b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\RenderSystem\ResourceManager">
+      <UniqueIdentifier>{974ce706-e4f8-4386-9019-4c38600f425e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\RenderSystem\ResourceManager\TextureManager">
+      <UniqueIdentifier>{54fb2344-7968-4099-bdea-c245f9f3ce42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\RenderSystem\SwapChain">
+      <UniqueIdentifier>{7537754b-9516-454e-9dba-9ee6bb31bdf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\RenderSystem\VertexBuffer">
+      <UniqueIdentifier>{86ab48d5-7581-40ae-b57f-0bf43399a22e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\RenderSystem\VertexShader">
+      <UniqueIdentifier>{c1c4de36-0454-4283-a622-b0ba694f47f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\RenderSystem\ResourceManager\MeshManager">
+      <UniqueIdentifier>{46380ddb-94bd-4a2d-b449-04c71adecb29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\CreditsScreen">
+      <UniqueIdentifier>{df802cbb-062f-4b32-8501-c31ead71f1a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\ColorScreen">
+      <UniqueIdentifier>{a098a0c3-e56a-49f2-81ed-6f66c8730db1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{9594aeeb-96ec-424d-a4c9-80925b7db771}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderLibrary">
+      <UniqueIdentifier>{aafb45b5-6edb-448d-ad54-d1faf2ddd977}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\RenderSystem\VertexBufferWithoutTexture">
+      <UniqueIdentifier>{d1359369-176e-45af-a98d-554d3de643e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Primitive\Physics">
+      <UniqueIdentifier>{9d61efee-0df0-4acd-80b1-ed60f30d4555}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -94,36 +124,33 @@
       <Filter>GameEngine\GraphicsEngine</Filter>
     </ClCompile>
     <ClCompile Include="SwapChain.cpp">
-      <Filter>GameEngine\GraphicsEngine\SwapChain</Filter>
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\SwapChain</Filter>
     </ClCompile>
     <ClCompile Include="DeviceContext.cpp">
-      <Filter>GameEngine\GraphicsEngine\DeviceContext</Filter>
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\DeviceContext</Filter>
     </ClCompile>
     <ClCompile Include="VertexBuffer.cpp">
-      <Filter>GameEngine\GraphicsEngine\VertexBuffer</Filter>
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\VertexBuffer</Filter>
     </ClCompile>
     <ClCompile Include="VertexShader.cpp">
-      <Filter>GameEngine\GraphicsEngine\VertexShader</Filter>
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\VertexShader</Filter>
     </ClCompile>
     <ClCompile Include="PixelShader.cpp">
-      <Filter>GameEngine\GraphicsEngine\PixelShader</Filter>
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\PixelShader</Filter>
     </ClCompile>
     <ClCompile Include="DrawQuad.cpp">
-      <Filter>GameEngine\GraphicsEngine\DrawQuad</Filter>
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\DrawQuad</Filter>
     </ClCompile>
     <ClCompile Include="ConstantBuffer.cpp">
-      <Filter>GameEngine\GraphicsEngine\ConstantBuffer</Filter>
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\ConstantBuffer</Filter>
     </ClCompile>
     <ClCompile Include="EngineTime.cpp">
       <Filter>GameEngine\EngineTime</Filter>
     </ClCompile>
     <ClCompile Include="IndexBuffer.cpp">
-      <Filter>GameEngine\GraphicsEngine\IndexBuffer</Filter>
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\IndexBuffer</Filter>
     </ClCompile>
     <ClCompile Include="AGameObject.cpp">
-      <Filter>Primitive</Filter>
-    </ClCompile>
-    <ClCompile Include="Cube.cpp">
       <Filter>Primitive</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\Downloads\imgui.cpp">
@@ -180,6 +207,81 @@
     <ClCompile Include="SceneCameraHandler.cpp">
       <Filter>Camera</Filter>
     </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource.cpp">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\ResourceManager\TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\ResourceManager\TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderSystem.cpp">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2D.cpp">
+      <Filter>GameEngine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshManager.cpp">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\ResourceManager\MeshManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\ResourceManager\MeshManager</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexMesh.cpp">
+      <Filter>GameEngine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Teapotobj.cpp">
+      <Filter>Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Bunnyobj.cpp">
+      <Filter>Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Statueobj.cpp">
+      <Filter>Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectManager.cpp">
+      <Filter>Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="CreditsScreen.cpp">
+      <Filter>UI\CreditsScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorScreen.cpp">
+      <Filter>UI\ColorScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderLibrary.cpp">
+      <Filter>ShaderLibrary</Filter>
+    </ClCompile>
+    <ClCompile Include="TexturedCube.cpp">
+      <Filter>Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexBufferWithoutTexture.cpp">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\VertexBufferWithoutTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="plane.cpp">
+      <Filter>Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsSystem.cpp">
+      <Filter>Primitive\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsComponent.cpp">
+      <Filter>Primitive\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="AComponent.cpp">
+      <Filter>Primitive\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseSystem.cpp">
+      <Filter>Primitive\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsCube.cpp">
+      <Filter>Primitive</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -192,31 +294,31 @@
       <Filter>GameEngine\GraphicsEngine</Filter>
     </ClInclude>
     <ClInclude Include="SwapChain.h">
-      <Filter>GameEngine\GraphicsEngine\SwapChain</Filter>
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\SwapChain</Filter>
     </ClInclude>
     <ClInclude Include="DeviceContext.h">
-      <Filter>GameEngine\GraphicsEngine\DeviceContext</Filter>
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\DeviceContext</Filter>
     </ClInclude>
     <ClInclude Include="VertexBuffer.h">
-      <Filter>GameEngine\GraphicsEngine\VertexBuffer</Filter>
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\VertexBuffer</Filter>
     </ClInclude>
     <ClInclude Include="VertexShader.h">
-      <Filter>GameEngine\GraphicsEngine\VertexShader</Filter>
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\VertexShader</Filter>
     </ClInclude>
     <ClInclude Include="PixelShader.h">
-      <Filter>GameEngine\GraphicsEngine\PixelShader</Filter>
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\PixelShader</Filter>
     </ClInclude>
     <ClInclude Include="DrawQuad.h">
-      <Filter>GameEngine\GraphicsEngine\DrawQuad</Filter>
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\DrawQuad</Filter>
     </ClInclude>
     <ClInclude Include="ConstantBuffer.h">
-      <Filter>GameEngine\GraphicsEngine\ConstantBuffer</Filter>
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\ConstantBuffer</Filter>
     </ClInclude>
     <ClInclude Include="EngineTime.h">
       <Filter>GameEngine\EngineTime</Filter>
     </ClInclude>
     <ClInclude Include="IndexBuffer.h">
-      <Filter>GameEngine\GraphicsEngine\IndexBuffer</Filter>
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\IndexBuffer</Filter>
     </ClInclude>
     <ClInclude Include="Vector3D.h">
       <Filter>GameEngine\Math</Filter>
@@ -225,9 +327,6 @@
       <Filter>GameEngine\Math</Filter>
     </ClInclude>
     <ClInclude Include="AGameObject.h">
-      <Filter>Primitive</Filter>
-    </ClInclude>
-    <ClInclude Include="Cube.h">
       <Filter>Primitive</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\Downloads\imconfig.h">
@@ -293,14 +392,108 @@
     <ClInclude Include="SceneCameraHandler.h">
       <Filter>Camera</Filter>
     </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Prerequisites.h">
+      <Filter>GameEngine\GraphicsEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\ResourceManager\TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\ResourceManager\TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem.h">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2D.h">
+      <Filter>GameEngine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshManager.h">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\ResourceManager\MeshManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\ResourceManager\MeshManager</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexMesh.h">
+      <Filter>GameEngine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Teapotobj.h">
+      <Filter>Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Bunnyobj.h">
+      <Filter>Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Statueobj.h">
+      <Filter>Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectManager.h">
+      <Filter>Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="CreditsScreen.h">
+      <Filter>UI\CreditsScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorScreen.h">
+      <Filter>UI\ColorScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderNames.h">
+      <Filter>ShaderLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderLibrary.h">
+      <Filter>ShaderLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="TexturedCube.h">
+      <Filter>Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBufferWithoutTexture.h">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\VertexBufferWithoutTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="plane.h">
+      <Filter>Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsSystem.h">
+      <Filter>Primitive\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsComponent.h">
+      <Filter>Primitive\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="AComponent.h">
+      <Filter>Primitive\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseSystem.h">
+      <Filter>Primitive\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsCube.h">
+      <Filter>Primitive</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="shader.fx" />
+    <None Include="shader.fx">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="TexturedPixelShader.hlsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="TexturedVertexShader.hlsl">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="VertexMeshLayoutShader.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
     <FxCompile Include="VertexShader.hlsl">
-      <Filter>App</Filter>
+      <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="PixelShader.hlsl">
-      <Filter>App</Filter>
+      <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

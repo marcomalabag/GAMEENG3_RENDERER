@@ -1,13 +1,11 @@
 #include "IndexBuffer.h"
-#include "GraphicsEngine.h"
+#include "RenderSystem.h"
+#include <exception>
 
-IndexBuffer::IndexBuffer() : MyBuffer(0) {
+IndexBuffer::IndexBuffer(void* listIndices, UINT sizeOfList, RenderSystem* system)  {
 
-}
-
-bool IndexBuffer::load(void* listIndices, UINT sizeOfList)
-{
-    if (MyBuffer)MyBuffer->Release();
+    this->MyBuffer = 0;
+    this->RSystem = system;
 
     D3D11_BUFFER_DESC BuffDesc = {};
     BuffDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -19,27 +17,20 @@ bool IndexBuffer::load(void* listIndices, UINT sizeOfList)
     D3D11_SUBRESOURCE_DATA initializaData = {};
     initializaData.pSysMem = listIndices;
 
-    SizeList = sizeOfList;
+    this->SizeList = sizeOfList;
 
-    if (FAILED(GraphicsEngine::get()->m_d3d_device->CreateBuffer(&BuffDesc, &initializaData, &MyBuffer))) {
-        return false;
+    if (FAILED(this->RSystem->m_d3d_device->CreateBuffer(&BuffDesc, &initializaData, &MyBuffer))) {
+        throw std::exception("IndexBuffer not created successfully");
     }
-
-    return true;
 }
+
 
 UINT IndexBuffer::getSizeIndexList()
 {
     return this->SizeList;
 }
 
-bool IndexBuffer::release()
-{
-    MyBuffer->Release();
-    delete this;
-    return false;
-}
-
 IndexBuffer::~IndexBuffer()
 {
+    MyBuffer->Release();
 }

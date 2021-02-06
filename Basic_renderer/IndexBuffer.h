@@ -1,13 +1,13 @@
 #pragma once
 #include <d3d11.h>
+#include "Prerequisites.h"
 
 class IndexBuffer
 {
 public:
-	IndexBuffer();
-	bool load(void* listIndices, UINT sizeOfList);
+	IndexBuffer(void* listIndices, UINT sizeOfList, RenderSystem* system);
 	UINT getSizeIndexList();
-	bool release();
+	
 	~IndexBuffer();
 
 private:
@@ -15,10 +15,10 @@ private:
 
 private:
 	ID3D11Buffer* MyBuffer;
-
+	RenderSystem* RSystem = nullptr;
 
 private:
 	friend class DeviceContext;
-	friend class GraphicsEngine;
+	
 };
 

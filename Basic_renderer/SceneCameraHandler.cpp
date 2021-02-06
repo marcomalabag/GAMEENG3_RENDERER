@@ -34,4 +34,5 @@ SceneCameraHandler::SceneCameraHandler()
 
 SceneCameraHandler::~SceneCameraHandler()
 {
+	delete this->sceneCamera;
 }

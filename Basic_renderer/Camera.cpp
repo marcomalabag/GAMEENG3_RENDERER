@@ -1,6 +1,6 @@
 #include "Camera.h"
 
-Camera::Camera(string name):AGameObject(name)
+Camera::Camera(String name):AGameObject(name)
 {
 	this->setPosition(0.0f, 0.0f, -4.0f);
 	this->updateViewMatrix();
@@ -10,6 +10,7 @@ Camera::Camera(string name):AGameObject(name)
 
 Camera::~Camera()
 {
+	InputSystem::getInstance()->removeListener(this);
 }
 
 void Camera::update(float deltaTime)
@@ -43,7 +44,7 @@ void Camera::update(float deltaTime)
 	}
 }
 
-void Camera::draw(int with, int height, VertexShader* vertexShader, PixelShader* pixelShader, float rotX, float rotY)
+void Camera::draw(int with, int height)
 {
 }
 
@@ -68,7 +69,7 @@ void Camera::onMouseMove(const Point& delta_mouse_pos)
 		float y = localRotation.getY();
 		float z = localRotation.getZ();
 
-		float speed = 0.05f;
+		float speed = 0.0005f;
 		x += delta_mouse_pos.x * speed;
 		
 		y += delta_mouse_pos.y * speed;
@@ -76,7 +77,9 @@ void Camera::onMouseMove(const Point& delta_mouse_pos)
 
 		this->setRotation(x, y, z);
 		this->updateViewMatrix();
+		
 	}
+
 }
 
 void Camera::onLeftMouseDown(const Point& mouse_pos)

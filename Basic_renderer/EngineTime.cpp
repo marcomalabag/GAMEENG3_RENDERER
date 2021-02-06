@@ -45,6 +45,6 @@ void EngineTime::LogFrameEnd()
     sharedInstance->deltaTime = elapsed_seconds.count();
     sharedInstance->frames += 1;
 
-   std::cout << "Frame update finished in" << sharedInstance->deltaTime << "\n";
-   std::cout << "Frames have passed:" << sharedInstance->frames << "\n";
+    std::cout << "Frame update finished in" << sharedInstance->deltaTime << "\n";
+    std::cout << "Frames have passed:" << sharedInstance->frames << "\n";
 }

@@ -7,6 +7,7 @@ public:
 	ProfileScreen();
 	~ProfileScreen();
 
-	void drawUI();
+	virtual void drawUI() override;
+	friend class UIManager;
 };
 

@@ -1,10 +1,12 @@
 #pragma once
 #include "InputListener.h"
 #include <map>
+#include <iostream>
 #include <unordered_set>
+#include <vector>
 #include "Point.h"
 
-typedef std::vector<InputListener*> List;
+
 
 class InputSystem
 {
@@ -15,6 +17,8 @@ public:
 	void update();
 	void addListener(InputListener* listener);
 	void removeListener(InputListener* listener);
+	void setCursorPosition(const Point& pos);
+	void showCursor(bool show);
 
 	bool isKeyDown(int key);
 	bool isKeyUp(int key);
@@ -25,14 +29,17 @@ public:
 
 public:
 	static InputSystem* get();
+	static void create();
+	static void release();
 
 private:
 	std::unordered_set<InputListener*> mapListeners;
-	List InputList;
+	
 	static InputSystem* sharedInstance;
 	unsigned char keys[256] = {};
 	unsigned char oldkeys[256] = {};
 	Point OldMousePosition;
 	bool FirstTime = true;
+	static InputSystem* Msystem;
 };
 

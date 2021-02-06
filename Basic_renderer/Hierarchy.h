@@ -8,5 +8,7 @@ public:
 	~Hierarchy();
 
 	void drawUI();
+	void updateObjectList() const;
+	friend class UIManager;
 };
 
