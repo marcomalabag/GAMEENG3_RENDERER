@@ -8,14 +8,22 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 #include "IndexBuffer.h"
-#include "Cube.h"
+#include "TexturedCube.h"
+#include "Teapotobj.h"
+#include "Bunnyobj.h"
+#include "Statueobj.h"
 #include "imgui.h"
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
 #include <vector>
 #include "InputListener.h";
+#include "Prerequisites.h"
+#include "SceneCameraHandler.h"
 
-typedef std::vector<Cube*> Cubes;
+typedef std::vector<TexturedCube*> TexturedCubes;
+typedef std::vector<Teapotobj*> TeaPots;
+typedef std::vector<Bunnyobj*> Bunnys;
+typedef std::vector<Statueobj*> Statues;
 
 class EngineTime;
 class AppWindow : public Window, public InputListener
@@ -29,18 +37,29 @@ public:
 	virtual void onCreate() override;
 	virtual void onUpdate() override;
 	virtual void onDestroy() override;
+	virtual void onKillFocus() override;
 
 	virtual void onFocus();
 	virtual void onDefocus();
 
+
+	// Inherited via InputListener
+	virtual void onKeyDown(int key) override;
+	virtual void onKeyUp(int key) override;
+	virtual void onMouseMove(const Point& delta_mouse_pos) override;
+	virtual void onLeftMouseDown(const Point& mouse_pos)override;
+	virtual void onLeftMouseUp(const Point& mouse_pos)override;
+	virtual void onRightMouseDown(const Point& mouse_pos)override;
+	virtual void onRightMouseUp(const Point& mouse_pos)override;
+	
+
 private:
-	SwapChain* m_swap_chain;
-	VertexBuffer* m_vb;
-	VertexShader* m_vs;
-	PixelShader* m_ps;
-	ConstantBuffer* m_cb;
-	IndexBuffer* MyIndexBuffer;
-	Cubes MyCubes;
+	SwapChainPtr m_swap_chain;
+	
+	TexturedCubes MyCubes;
+	TeaPots MyTeaPots;
+	Bunnys MyBunnys;
+	Statues MyStatues;
 
 	unsigned long m_old_time = 0;
 	float m_delta_time = 0;
@@ -59,13 +78,6 @@ private:
 private:
 	friend class EngineTime;
 
-	// Inherited via InputListener
-	virtual void onKeyDown(int key) override;
-	virtual void onKeyUp(int key) override;
-	virtual void onMouseMove(const Point& delta_mouse_pos) override;
-	virtual void onLeftMouseDown(const Point& mouse_pos)override;
-	virtual void onLeftMouseUp(const Point& mouse_pos)override;
-	virtual void onRightMouseDown(const Point& mouse_pos)override;
-	virtual void onRightMouseUp(const Point& mouse_pos)override;
+
 };
 

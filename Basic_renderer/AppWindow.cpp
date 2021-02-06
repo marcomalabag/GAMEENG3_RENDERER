@@ -5,7 +5,11 @@
 #include "Matrix4.h"
 #include "InputSystem.h"
 #include "UIManager.h"
-
+#include "Prerequisites.h"
+#include <iostream>
+#include "GameObjectManager.h"
+#include "ShaderLibrary.h"
+#include "BaseSystem.h"
 
 struct vertex
 {
@@ -28,57 +32,33 @@ void AppWindow::onCreate()
 {
 
 	Window::onCreate();
-
-	InputSystem::initialize();
-
-	GraphicsEngine::get()->init();
-	m_swap_chain = GraphicsEngine::get()->createSwapChain();
+	
+	InputSystem::getInstance()->addListener(this);
+	InputSystem::getInstance()->showCursor(true);
 	
 	RECT rc = this->getClientWindowRect();
-	m_swap_chain->init(this->m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
+	ShaderLibrary::initialize();
 
-	UIManager::initialize(this->m_hwnd);
-
-
-	void* shader_byte_code = nullptr;
-	size_t size_shader = 0;
-
-	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
 	
-	m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
+	m_swap_chain = GraphicsEngine::get()->getRenderSystem()->createSwapChain(this->m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
+	
 
-	for (int i = 0; i < 100; i++) {
-		float x = (rand() % (-100 - 100)) / 100.0;
-		float y = (rand() % (-100 - 100)) / 100.0;
-		float Rspeed = (rand() % (-135 - 135)) / 100.0;
-
-		Cube* cube = new Cube("Cube", shader_byte_code, size_shader);
-		cube->setAnimSpeed(3.45f);
-		cube->setPosition(Vector3D(x, y, 0.0f));
-		
-		cube->setScale(Vector3D(0.25f, 0.25f, 0.25f));
-		this->MyCubes.push_back(cube);
-	}
-
-	GraphicsEngine::get()->releaseCompiledShader();
-
-
-	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
-	m_ps = GraphicsEngine::get()->createPixelShader(shader_byte_code, size_shader);
-	GraphicsEngine::get()->releaseCompiledShader();
+	GameObjectManager::initialize();
 
 	SceneCameraHandler::initialize();
+	UIManager::initialize(this->m_hwnd);
+	BaseSystem::initializs();
+
 }
 
 void AppWindow::onUpdate()
 {
 	
 	Window::onUpdate();
-	UIManager::getInstance()->drawAllUI();
 
 	InputSystem::getInstance()->update();
 
-
+	
 	if (speed <= 0) {
 		increase = true;
 	}
@@ -92,28 +72,23 @@ void AppWindow::onUpdate()
 		speed -= EngineTime::getDeltaTime();
 	}
 
-	std::cout << "Frames have passed:" << speed << "\n";
-
+	
+	
 	//CLEAR THE RENDER TARGET 
-	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain,
-		0, 0.3f, 0.4f, 1);
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain, 0, 0.3f, 0.4f, 1);
 	//SET VIEWPORT OF RENDER TARGET IN WHICH WE HAVE TO DRAW
 	RECT rc = this->getClientWindowRect();
 
 	int width = rc.right - rc.left;
 	int height = rc.bottom - rc.top;
 
-	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(m_vs);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(m_ps);
 
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setViewportSize(width, height);
 	
 
-	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(width, height);
-
-	for (int i = 0; i < MyCubes.size(); i++) {
-		this->MyCubes[i]->update(EngineTime::getDeltaTime());
-		this->MyCubes[i]->draw(width, height, m_vs, m_ps, rotX, rotY);
-	}
+	//GameObjectManager::getInstance()->updateAll();
+	GameObjectManager::getInstance()->renderAll(width, height);
+	UIManager::getInstance()->drawAllUI();
 
 
 	SceneCameraHandler::getInstance()->update();
@@ -127,11 +102,7 @@ void AppWindow::onUpdate()
 void AppWindow::onDestroy()
 {
 	Window::onDestroy();
-	m_swap_chain->release();
-	m_vs->release();
-	m_ps->release();
-	GraphicsEngine::get()->release();
-	SceneCameraHandler::destroy();
+	
 }
 
 void AppWindow::onFocus()
@@ -140,6 +111,12 @@ void AppWindow::onFocus()
 }
 
 void AppWindow::onDefocus()
+{
+	InputSystem::getInstance()->removeListener(this);
+}
+
+
+void AppWindow::onKillFocus()
 {
 	InputSystem::getInstance()->removeListener(this);
 }
